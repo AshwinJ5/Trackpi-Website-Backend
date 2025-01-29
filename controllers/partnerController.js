@@ -50,21 +50,33 @@ exports.getPartnerById = async (req, res) => {
 exports.updatePartner = async (req, res) => {
   const { id } = req.params;
   const { companyname, description } = req.body;
-  const companylogo = req.file ? `/uploads/partner/${req.file.filename}` : undefined; // Set undefined if no file is uploaded
+  const companylogo = req.file ? `/uploads/partner/${req.file.filename}` : undefined;
 
   try {
+    // Find the existing partner
+    const existingPartner = await Partners.findById(id);
+
+    if (!existingPartner) {
+      return res.status(404).json({ message: 'Partner not found' });
+    }
+
+    // Check if there are any changes
+    const isSameCompanyName = companyname === existingPartner.companyname;
+    const isSameDescription = description === existingPartner.description;
+    const isSameCompanyLogo = companylogo === existingPartner.companylogo;
+
+    if (isSameCompanyName && isSameDescription && (!companylogo || isSameCompanyLogo)) {
+      return res.status(304).json({ message: 'No changes detected' });
+    }
+
     // Build the update object dynamically
     const updateFields = {};
-    if (companyname) updateFields.companyname = companyname;
-    if (description) updateFields.description = description;
-    if (companylogo) updateFields.companylogo = companylogo;
+    if (companyname && !isSameCompanyName) updateFields.companyname = companyname;
+    if (description && !isSameDescription) updateFields.description = description;
+    if (companylogo && !isSameCompanyLogo) updateFields.companylogo = companylogo;
 
     // Update the partner
     const updatedPartner = await Partners.findByIdAndUpdate(id, updateFields, { new: true });
-
-    if (!updatedPartner) {
-      return res.status(404).json({ message: 'Partner not found' });
-    }
 
     res.status(200).json({ message: 'Partner updated successfully', updatedPartner });
   } catch (error) {

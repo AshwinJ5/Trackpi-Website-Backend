@@ -44,12 +44,42 @@ exports.updateHeadingForNewsPartnership = async (req, res) => {
       });
     }
 
-    const {  newsHeading, partnershipHeading, partnershipSubHeading } = req.body;    
+    const { newsHeading, partnershipHeading, partnershipSubHeading } = req.body;
 
-    existingDocument.newsHeading = newsHeading || existingDocument.newsHeading;
-    existingDocument.partnershipHeading = partnershipHeading || existingDocument.partnershipHeading;
-    existingDocument.partnershipSubHeading = partnershipSubHeading || existingDocument.partnershipSubHeading;
+    // Check if no data is incoming
+    const noIncomingData =
+      newsHeading === undefined &&
+      partnershipHeading === undefined &&
+      partnershipSubHeading === undefined;
 
+    if (noIncomingData) {
+      return res.status(400).json({
+        message: "No data provided to update the headings",
+      });
+    }
+
+    // Check if there are no changes
+    const noChanges =
+      (newsHeading === undefined || newsHeading === existingDocument.newsHeading) &&
+      (partnershipHeading === undefined ||
+        partnershipHeading === existingDocument.partnershipHeading) &&
+      (partnershipSubHeading === undefined ||
+        partnershipSubHeading === existingDocument.partnershipSubHeading);
+
+    if (noChanges) {
+      return res.status(304).send(); // Respond with 304 if no changes are detected
+    }
+
+    // Update fields only if they are provided
+    if (newsHeading !== undefined) {
+      existingDocument.newsHeading = newsHeading;
+    }
+    if (partnershipHeading !== undefined) {
+      existingDocument.partnershipHeading = partnershipHeading;
+    }
+    if (partnershipSubHeading !== undefined) {
+      existingDocument.partnershipSubHeading = partnershipSubHeading;
+    }
 
     // Save the updated document
     await existingDocument.save();

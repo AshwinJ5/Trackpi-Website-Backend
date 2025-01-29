@@ -52,12 +52,6 @@ const processedFeedback = Array.isArray(feedback) ? feedback.join('\n') : feedba
         .json({ message: "Name must be between 3 and 64 characters." });
     }
 
-    if (phone && !/^\+\d{1,3}\s\d{7,12}$/.test(phone)) {
-      return res.status(400).json({
-        message:
-          "Phone number must include a valid country code (e.g., +91 9876543210) and be 7 to 12 digits long.",
-      });
-    }
 
     if (fullAddress && fullAddress.length < 6) {
       return res
@@ -153,12 +147,7 @@ exports.updateEmployeeById = async (req, res) => {
         .json({ message: "Name must be between 3 and 64 characters." });
     }
 
-    if (updates.phone && !/^\+\d{1,3}\s\d{7,12}$/.test(updates.phone)) {
-      return res.status(400).json({
-        message:
-          "Phone number must include a valid country code (e.g., +91 9876543210) and be 7 to 12 digits long.",
-      });
-    }
+   
 
     if (updates.fullAddress && updates.fullAddress.length < 6) {
       return res

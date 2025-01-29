@@ -56,13 +56,7 @@ const employeeSchema = new mongoose.Schema({
     phone: { 
         type: String,
         trim: true,
-        validate: {
-          validator: function (v) {
-            // Country code should start with a '+' followed by 1-3 digits, and the phone number should be 7-12 digits.
-            return /^\+\d{1,3}\s\d{7,12}$/.test(v);
-          },
-          message: "Phone number must include a valid country code (e.g., +91 9876543210) and be 7 to 12 digits long.",
-        },
+      
      },
     fullAddress: { type: String,
         minlength: [6, "Address must be at least 6 characters long."],

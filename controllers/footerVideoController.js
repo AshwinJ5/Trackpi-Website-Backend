@@ -89,6 +89,22 @@ exports.createFooterVideo = async (req, res) => {
         ? `/uploads/footer/${req.files.imagefile[0].filename}`
         : existingDocument.imagefile;
   
+      // Check if any changes were made
+      const noChanges =
+        videofile1 ===undefined || existingDocument.videofile1 &&
+        videourl1 ===undefined ||   existingDocument.videourl1 &&
+        videofile2 === undefined ||  existingDocument.videofile2 &&
+        videourl2 === undefined ||  existingDocument.videourl2 &&
+        videofile3 === undefined ||  existingDocument.videofile3 &&
+        videourl3 ===undefined ||   existingDocument.videourl3 &&
+        videoheading === undefined ||  existingDocument.videoheading &&
+        imagefile === undefined ||  existingDocument.imagefile &&
+        imageheading === undefined ||  existingDocument.imageheading;
+  
+      if (noChanges) {
+        return res.status(304).send(); // Send 304 response if no changes detected
+      }
+  
       // Update the document with new or existing data
       existingDocument.videofile1 = videofile1;
       existingDocument.videourl1 = videourl1 || existingDocument.videourl1;
@@ -114,6 +130,8 @@ exports.createFooterVideo = async (req, res) => {
       });
     }
   };
+  
+  
   
   // Get all footer data
 exports.getAllFooterData = async (req, res) => {

@@ -16,7 +16,7 @@ router.post(
     footerVideoController.createFooterVideo
   );
 // update
-router.patch("/updatefooterdetails",verifyJwt, multer.fields([
+router.patch("/updatefooterdetails", multer.fields([
     { name: "videofile1", maxCount: 1 },
     { name: "videofile2", maxCount: 1 },
     { name: "videofile3", maxCount: 1 },

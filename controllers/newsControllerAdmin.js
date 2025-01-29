@@ -24,41 +24,49 @@ exports.addNewsDetails = async (req, res) => {
 };
 // Edit news detailsss
 exports.editNewsDetails = async (req, res) => {
-    const { newsLink, newsFile } = req.body;
-    const { id } = req.params;
-    console.log(id);
-  
-    
+  const { newsLink, newsFile } = req.body;
+  const { id } = req.params;
+  const uploadedNewsFile = req.file ? `/uploads/news/${req.file.filename}` : newsFile;
 
-    const uploadedNewsFile = req.file ? `/uploads/news/${req.file.filename}` : newsFile;
-  
-    try {
-      if (!id) {
-        return res.status(400).json({ error: "News ID (pid) is required" });
-      }
-      if (!newsLink) {
-        return res.status(400).json({ error: "newsLink is required" });
-      }
-  
-      const updateNews = await news.findByIdAndUpdate(
-        { _id: id },
-        {
-          newsLink,
-          newsFile: uploadedNewsFile,
-        },
-        { new: true }
-      );
-  
-      if (!updateNews) {
-        return res.status(404).json({ error: "News not found" });
-      }
-  
-      res.status(200).json(updateNews);
-    } catch (error) {
-      console.error("Error updating news details:", error.message);
-      res.status(500).json({ error: "Internal server error" });
+  try {
+    // Validate the required fields
+    if (!id) {
+      return res.status(400).json({ error: "News ID is required" });
     }
-  };
+
+    if (!newsLink && !uploadedNewsFile) {
+      return res.status(400).json({ error: "At least one field (newsLink or newsFile) is required" });
+    }
+
+    // Find the existing news item
+    const existingNews = await news.findById(id);
+    if (!existingNews) {
+      return res.status(404).json({ error: "News not found" });
+    }
+
+    // Check for changes
+    const isSameNewsLink = newsLink === existingNews.newsLink;
+    const isSameNewsFile = uploadedNewsFile === existingNews.newsFile;
+
+    if (isSameNewsLink && isSameNewsFile) {
+      return res.status(304).json({ message: "No changes detected" });
+    }
+
+    // Update only the fields that have changed
+    const updateFields = {};
+    if (newsLink && !isSameNewsLink) updateFields.newsLink = newsLink;
+    if (uploadedNewsFile && !isSameNewsFile) updateFields.newsFile = uploadedNewsFile;
+
+    // Update the news document
+    const updatedNews = await news.findByIdAndUpdate(id, updateFields, { new: true });
+
+    res.status(200).json({ message: "News updated successfully", updatedNews });
+  } catch (error) {
+    console.error("Error updating news details:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
   // Get All news
 exports.getAllNewsDetails = async (req, res) => {
     try {
