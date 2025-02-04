@@ -24,7 +24,7 @@ const formSchema = new mongoose.Schema(
     email: {
       type: String,
       required: [true, "Please provide your email address"],
-      unique: true,
+      // unique: true,
       trim: true,
       validate: {
         validator: function (v) {
