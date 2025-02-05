@@ -37,22 +37,15 @@ exports.addForm = async (req, res) => {
       message: "Form submitted successfully",
       data: formAdd,
     });
-  }catch (err) {
-    console.error("Error adding form:", err);
-
+  } catch (err) {
+    console.error("Error adding form:", err); // Logs full error details
+    
     if (err.name === 'ValidationError') {
-        // Handle Mongoose ValidationError
         const errorMessages = Object.values(err.errors).map(error => error.message);
-        return res.status(400).json({ error: ` ${errorMessages.join(', ')}` });
+        return res.status(400).json({ error: errorMessages.join(', ') });
     }
 
-    // Handle duplicate email errors (MongoDB unique constraint)
-    if (err.code === 11000 && err.keyPattern?.email) {
-      return res.status(409).json({ error: "Email already exists. Please use a different email address." });
-    }
-
-    // General error handling
-    return res.status(500).json({ error: "An error occurred while submitting the form. Please try again later." });
+    return res.status(500).json({ error: `Internal Server Error: ${err.message}` }); // Show actual error
 }
 }
 
