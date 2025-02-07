@@ -37,7 +37,7 @@ const projectSchema = new mongoose.Schema({
   beneficiaries: { type: String, },
   successReason: { type: String, },
   skills: { type: String },
-  summary: { type: String,},
+  summary: { type: String, required: true},
   file: { type: String }, // Added for file URL
   fileName:{type: String },
   qualification: { type: String, required: true },

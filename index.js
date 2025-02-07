@@ -16,6 +16,8 @@ const partnerRouter = require("./routes/partnershipRouter");
 const formRouter = require("./routes/formRouter");
 const csvFileRouter = require("./routes/csvFileRouter");
 const headingsForPartnerNews=require("./routes/headingForNewsPartnershipRouter")
+const imageRoutes = require("./routes/imageRoutes");
+
 const app = express();
 
 // Middleware
@@ -58,9 +60,10 @@ app.use("/assets",express.static(path.join(__dirname,"uploads","projects",)));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // console.log(path.join(__dirname,"uploads","projects","1736697702064.pdf"));
+app.use("/api/images", imageRoutes);
 
 app.use(adminRoute);
 
 app.listen(process.env.PORT,()=>{
-  console.log(`server is running @ http://${process.env.BASE_URL}:${process.env.PORT}`)
+  console.log(`server is running @ http://localhost:${process.env.PORT}`)
 })
