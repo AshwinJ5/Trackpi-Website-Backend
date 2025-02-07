@@ -31,7 +31,7 @@ exports.submitProject = async (req, res) => {
     console.log(req.body,"request body");
 
     // Check if required fields are missing
-    if (!fullName || !contactNumber || !emailAddress || !projectName || !problemSolved) {
+    if (!fullName || !contactNumber || !emailAddress || !projectName || !problemSolved ) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
