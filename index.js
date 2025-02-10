@@ -10,6 +10,7 @@ const projectRouter = require("./routes/projectRouter");
 const posterRoutes = require("./routes/posterRoutes");
 const internRoute = require("./routes/internRouter");
 const salesRoutes = require("./routes/salesRouter");
+const companyRoutes = require("./routes/companyRoutes")
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use("/api/projects", projectRouter);
 app.use("/api/posters", posterRoutes);
 app.use("/api/interns", internRoute);
 app.use("/api/sales", salesRoutes);
+app.use("/api/jonfair/companies", companyRoutes);
 
 app.use(adminRoute);
 
