@@ -3,7 +3,6 @@ const csvController = require('../controllers/csvController');
 const verifyJwt = require('../middlewares/jwtMiddleware'); // Assuming JWT is needed for access control
 const router = express.Router();
 
-// Route to handle CSV export
 router.get('/csv-data', verifyJwt, csvController.getCsvFile);
 
 module.exports = router;

@@ -15,7 +15,6 @@ exports.logRequestDetails = async (req, res, next) => {
         }
       });
       await newLog.save();
-      console.log('Log saved:', newLog);
     } catch (err) {
       console.error('Error saving log:', err);
     }

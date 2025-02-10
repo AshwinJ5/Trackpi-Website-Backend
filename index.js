@@ -28,11 +28,6 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true }); // Creates 'uploads' folder if it doesn't exist
 }
 
-
-
-
-
-
 // Connect to database
 connectDB();
 

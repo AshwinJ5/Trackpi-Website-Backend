@@ -3,8 +3,6 @@ const Project = require('../models/projectSchema');
 
 exports.submitProject = async (req, res) => {
   try {
-    console.log("Request body:", req.body); // Log the body data
-    console.log("Uploaded file:", req.file); // Log the file
 
     if (!req.file) {
       return res.status(400).json({ error: "File upload is required" });
@@ -28,7 +26,6 @@ exports.submitProject = async (req, res) => {
       summary,
       institute_company
     } = req.body;
-    console.log(req.body,"request body");
 
     // Check if required fields are missing
     if (!fullName || !contactNumber || !emailAddress || !projectName || !problemSolved ) {
