@@ -26,9 +26,6 @@ exports.getCsvFile = async (req, res) => {
     } else {
       return res.status(400).json({ error: 'For employees, provide a valid category (sales, intern, employee)' });
     }
-
-    console.log(`Fetching data from: ${apiUrl}`);
-
     // Make the request to the API with the token
     const response = await axios.get(apiUrl, {
       headers: { Authorization: `Bearer ${token}` },

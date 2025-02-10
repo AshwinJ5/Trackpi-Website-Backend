@@ -15,7 +15,6 @@ const partnerRouter = require("./routes/partnershipRouter");
 const formRouter = require("./routes/formRouter");
 const csvFileRouter = require("./routes/csvFileRouter");
 const headingsForPartnerNews=require("./routes/headingForNewsPartnershipRouter")
-const imageRoutes = require("./routes/imageRoutes");
 
 const app = express();
 
@@ -28,12 +27,6 @@ const uploadDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true }); // Creates 'uploads' folder if it doesn't exist
 }
-
-// Serve static files from the 'uploads' folder
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-
-
 
 // Connect to database
 connectDB();
@@ -51,10 +44,11 @@ app.use("/api/headingfornewspatnership", headingsForPartnerNews);
 app.use(logRouter)
 
 
-
-app.use("/assets",express.static(path.join(__dirname,"uploads","projects",)));
+// Serve static files from the 'uploads' folder
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use("/api/images", imageRoutes);
+app.use("/assets",express.static(path.join(__dirname,"uploads","projects",)));
+
+// console.log(path.join(__dirname,"uploads","projects","1736697702064.pdf"));
 
 app.use(adminRoute);
 

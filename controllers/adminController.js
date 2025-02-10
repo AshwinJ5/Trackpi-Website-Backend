@@ -60,11 +60,7 @@ exports.deleteAdmin = async (req, res) => {
 exports.addAdmin = async (req, res) => {
     try {
       const user = req.user; // Assumes authentication middleware sets this
-      const data = req.body;
-      console.log('Request User:', user);
-  
-      console.log('Request Data:', data);
-  
+      const data = req.body;  
       // Validate request data
       if (!user || !data.username || !data.password || !data.adminType || !data.email) {
         return res.status(400).json({ err: 'Missing required fields' });
@@ -91,7 +87,6 @@ exports.addAdmin = async (req, res) => {
   
       // Create new admin
       const response = await adminModel.create(data);
-      console.log('New Admin Created:', response);
   
       res.status(201).json({ message: 'Admin created successfully', admin: response });
     } catch (err) {
@@ -105,10 +100,7 @@ exports.editAdmin = async (req, res) => {
       const user = req.user; // Authenticated user
       const { id } = req.params; // Admin ID to update
       const data = req.body;
-  
-      console.log('Authenticated User:', user);
-      console.log('Request Data:', data);
-      console.log('Admin ID to Edit:', id);
+
   
       // Validate required data
       if (!user || !id || (!data.username && !data.email && !data.adminType && !data.password)) {
@@ -157,52 +149,11 @@ exports.editAdmin = async (req, res) => {
   };
   
   
-// adminLogin
-// exports.adminLogin = async (req, res) => {
 
-//   const { username, password } = req.body;
 
-//   try {
-//     // Find the admin by email
-//     const admin = await adminModel.findOne({ username });
-
-//     if (!admin) {
-//       return res.status(404).json({ message: 'Admin not found.' });
-//     }
-
-//     // Option 1: Non-hashed password check (for now)
-//     if (admin.password !== password) {
-//       return res.status(401).json({ message: 'Invalid password.' });
-//     }
-
-//     // Uncomment this block when you store hashed passwords
-//     /*
-//         // Option 2: Hashed password check
-//         const isMatch = await bcrypt.compare(password, admin.password);
-//         if (!isMatch) {
-//             return res.status(401).json({ message: "Invalid password." });
-//         }
-//         */
-
-//     // Successful login
-//     res.status(200).json({
-//       message: 'Login successful.',
-//       admin: {
-//         username: admin.username,
-//         email: admin.email,
-//         adminType: admin.adminType,
-//         isActive: admin.isActive,
-//       },
-//     });
-//   } catch (error) {
-//     console.error('Error during admin login:', error);
-//     res.status(500).json({ message: 'Internal server error.' });
-//   }
-// };
 
 exports.adminLogin = async (req, res) => {
   try {
-    console.log('Request body:', req.body);
     const { username, password } = req.body;
 
     // Validate the input
@@ -220,8 +171,6 @@ exports.adminLogin = async (req, res) => {
       response = await adminModel.findOne({ username: username });
     }
 
-    console.log('Database response:', response);
-
     // Check if the admin exists
     if (!response) {
       return res.status(406).json({ error: 'Invalid username or email' });
@@ -231,13 +180,7 @@ exports.adminLogin = async (req, res) => {
       return res.status(401).json({ message: 'Invalid password.' });
     }
 
-    // Compare the hashed password
-    // const isPasswordMatch = await bcrypt.compare(password, response.password);
-    // console.log('Password match result:', isPasswordMatch);
-
-    // if (!isPasswordMatch) {
-    //   return res.status(406).json({ error: 'Invalid password' });
-    // }
+    
 
     // Generate a JWT token
     const jwtToken = jwt.sign(
@@ -259,52 +202,6 @@ exports.adminLogin = async (req, res) => {
     return res.status(500).json({ error: 'Server-side error' });
   }
 };
-// exports.adminLogin = async (req, res) => {
-//     try {
-//         // const user = new adminModel({
-//         //     username: "user",
-//         //     password: "password",
-//         //     adminType: "user",
-//         //     email: "user00@gmail.com",
-//         //     isActive: true
-//         // });
-//         // await user.save();
-//         const { username, password } = req.body;
-
-//         // Check for missing fields
-//         if (!username || !password) {
-//             return res.status(400).json({ message: 'Email and password are required' });
-//         }
-
-//         // Find admin by email
-//         const admin = await adminModel.findOne({ username: username });
-//         if (!admin) {
-//             return res.status(403).json({ message: 'Email or password is incorrect' });
-//         }
-
-//         // Uncomment the following lines if password hashing is used in your system
-//         // const isMatching = await bcrypt.compare(password, admin.password);
-//         // if (!isMatching) {
-//         //     return res.status(403).json({ message: 'Email or password is incorrect' });
-//         // }
-
-//         // Generate JWT token (uncomment if needed)
-//         // const token = jwt.sign(
-//         //     { id: admin._id, role: 'ADMIN' },
-//         //     process.env.SECRET_KEY,
-//         //     { expiresIn: '7d' }
-//         // );
-
-//         res.status(200).json({
-//             message: 'You are Logged In !!!',
-//             // Uncomment to include the token
-//             // token: token
-//         });
-//     } catch (error) {
-//         console.error('Login error:', error);
-//         res.status(500).json({ message: 'Internal server error' });
-//     }
-// };
 
 exports.adminStatusUpdate = async (req, res) => {
   const { id } = req.params; // The ID of the admin whose status is being updated
