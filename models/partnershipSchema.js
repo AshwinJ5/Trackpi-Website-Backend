@@ -15,6 +15,6 @@ const partnershipSchema = new mongoose.Schema({
     }
 })
 
-const partners = mongoose.model('Partners', partnershipSchema)
+const partners = mongoose.model('partners', partnershipSchema)
 module.exports=partners
 

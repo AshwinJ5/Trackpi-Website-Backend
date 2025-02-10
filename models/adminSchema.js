@@ -16,6 +16,11 @@ const adminSchema=new mongoose.Schema({
         type:String,
         required:true,
     },
+    email: {
+        type:String,
+        required:true,
+        unique:true
+    },
     isActive:{
         type:Boolean,
         default:true
@@ -27,6 +32,6 @@ const adminSchema=new mongoose.Schema({
 })
 
 
-const adminModel=new mongoose.model('admins',adminSchema)
+const AdminModel= mongoose.model('admins',adminSchema)
 
-module.exports=adminModel
+module.exports=AdminModel
