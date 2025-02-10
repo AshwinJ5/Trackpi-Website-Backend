@@ -20,8 +20,15 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.11.0",
     "mongoose": "^8.9.2",
+<<<<<<< HEAD
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+=======
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.1.7",
     "uuid": "^11.0.5"
+>>>>>>> 4f78e0e815e024b86d2c4933e3b15cfe6306734e
   }
 }
