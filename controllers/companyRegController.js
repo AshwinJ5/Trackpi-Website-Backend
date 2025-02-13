@@ -2,13 +2,15 @@ const Company = require("../models/companySchema");
 
 exports.registerCompany = async (req, res) => {
     try {
-        const { companyName, industry, website, zipCode, country, state, city, companySize } = req.body;
+        const { companyName, industry, website, pinCode, country, state, city, companySize } = req.body;
 
-        if (!companyName || !industry || !website || !zipCode || !country || !state || !city || !companySize) {
+        if (!companyName || !industry || !website || !pinCode || !country || !state || !city || !companySize) {
             return res.status(400).json({ error: "All fields are required!" });
         }
 
-        const newCompany = new Company({ companyName, industry, website, zipCode, country, state, city, companySize });
+        console.log("Received Data:", req.body);
+
+        const newCompany = new Company({ companyName, industry, website, pinCode, country, state, city, companySize });
         await newCompany.save();
 
         res.status(201).json({ message: "Registration successful!", company: newCompany });

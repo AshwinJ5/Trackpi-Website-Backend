@@ -35,7 +35,7 @@ connectDB();
 // Routes
 app.use("/api/projects", projectRouter);
 
-app.use("/api/jonfair/companies", companyRoutes);
+app.use("/api/jobfair/companies", companyRoutes);
 
 app.use("/api/employee", employeeRouter);
 app.use("/api/news", newsRouter);
