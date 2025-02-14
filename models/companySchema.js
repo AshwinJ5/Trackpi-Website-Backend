@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
 const CompanySchema = new mongoose.Schema({
-    companyName: { type: String, required: true },
-    industry: { type: String, required: true },
-    website: { type: String, required: true },
-    pinCode: { type: String, required: true },
-    country: { type: String, required: true },
-    state: { type: String, required: true },
-    city: { type: String, required: true },
+    companyName: { type: String, required: true, trim: true },
+    industry: { type: String, required: true, trim: true },
+    website: { type: String, required: true, trim: true },
+    pincode: { type: String, required: true, trim: true },
+    country: { type: String, required: true, trim: true },
+    state: { type: String, required: true, trim: true },
+    city: { type: String, required: true, trim: true },
     companySize: { 
         type: String, 
         required: true,
