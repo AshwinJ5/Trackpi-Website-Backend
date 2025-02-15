@@ -175,10 +175,11 @@ exports.adminLogin = async (req, res) => {
     if (!response) {
       return res.status(406).json({ error: 'Invalid username or email' });
     }
-
-    if (response.password !== password) {
+    const isPasswordValid = await bcrypt.compare(password, response.password);
+    if (!isPasswordValid) {
       return res.status(401).json({ message: 'Invalid password.' });
     }
+  
 
     
 
