@@ -26,14 +26,15 @@ app.use(express.json());
 app.use(
   cors({
     origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl requests)
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        callback(new Error("Not allowed by CORS"));
+        callback(new Error('Not allowed by CORS'));
       }
     },
     credentials: true, // Allow cookies and authentication headers
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+    methods: '*', // Allow all HTTP methods
   })
 );
 
