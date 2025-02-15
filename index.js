@@ -22,7 +22,10 @@ const app = express();
 dotenv.config({ path: "./.env" });
 const allowedOrigins = process.env.ALLOWED_ORIGINS.split(",");
 // Middleware
-app.use(express.json());
+app.use(express.json({ limit: "500mb" }));
+app.use(express.urlencoded({ limit: "500mb", extended: true }));
+
+
 app.use(
   cors({
     origin: function (origin, callback) {
