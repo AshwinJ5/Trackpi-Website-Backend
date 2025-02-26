@@ -16,6 +16,7 @@ const partnerRouter = require("./routes/partnershipRouter");
 const formRouter = require("./routes/formRouter");
 const csvFileRouter = require("./routes/csvFileRouter");
 const headingsForPartnerNews = require("./routes/headingForNewsPartnershipRouter");
+const imageWebpRoute = require("./routes/imageWebpRoute");
 
 const app = express();
 
@@ -68,8 +69,7 @@ app.use(logRouter);
 // Serve static files from the 'uploads' folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/assets", express.static(path.join(__dirname, "uploads", "projects")));
-
-// console.log(path.join(__dirname,"uploads","projects","1736697702064.pdf"));
+app.use(imageWebpRoute);
 
 app.use(adminRoute);
 
